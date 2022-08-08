@@ -17,7 +17,7 @@
       [:meta {:name "viewport"
               :content "width=device-width, initial-scale=1, shrink-to-fit=no"}]]
      [:body (render/walk-attrs body)]
-     [:script {:src "https://unpkg.com/htmx.org@1.5.0"}]))))
+     [:script {:src "https://unpkg.com/htmx.org@1.8.0"}]))))
 
 (defn parse-int [number-string]
   (try (Integer/parseInt number-string)
