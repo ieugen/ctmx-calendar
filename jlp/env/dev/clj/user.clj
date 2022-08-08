@@ -12,6 +12,12 @@
 
 (add-tap (bound-fn* clojure.pprint/pprint))
 
+;; (require '[portal.api :as p])
+;; ;; or with an extension installed, do:
+;; (def p (p/open {:launcher :vs-code}))  ; JVM only for now
+
+;; (add-tap #'p/submit) ; Add portal as a tap> target
+
 (defn start
   "Starts application.
   You'll usually want to run this on startup."

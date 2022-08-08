@@ -52,7 +52,8 @@
    :test          [:project/dev :project/test :profiles/test]
 
    :project/dev  {:jvm-opts ["-Dconf=dev-config.edn" ]
-                  :dependencies [[org.clojure/tools.namespace "1.3.0"]
+                  :dependencies [[djblue/portal "0.29.1"]
+                                 [org.clojure/tools.namespace "1.3.0"]
                                  [pjstadig/humane-test-output "0.11.0"]
                                  [prone "2021-04-23"]
                                  [ring/ring-devel "1.9.5"]
