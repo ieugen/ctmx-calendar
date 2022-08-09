@@ -3,3 +3,7 @@
 .portal
 **/.vscode/settings.json
 **/.calva/output-window/
+.clj-kondo/.cache/
+**/.lsp/
+target
+log
