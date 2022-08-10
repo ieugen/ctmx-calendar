@@ -6,7 +6,7 @@
   :dependencies [[ch.qos.logback/logback-classic "1.2.11"]
                  [clojure.java-time "0.3.3"]
                  [cprop "0.1.19"]
-                 [ctmx "1.4.4"]
+                 [ctmx "1.4.5"]
                  [expound "0.9.0"]
                  [funcool/struct "1.4.0"]
                  [json-html "0.4.7"]
@@ -32,14 +32,14 @@
                  [selmer "1.12.53"]]
 
   :min-lein-version "2.0.0"
-  
+
   :source-paths ["src/clj"]
   :test-paths ["test/clj"]
   :resource-paths ["resources"]
   :target-path "target/%s/"
   :main ^:skip-aot jlp.core
 
-  :plugins [] 
+  :plugins []
 
   :profiles
   {:uberjar {:omit-source true
@@ -60,8 +60,8 @@
                                  [ring/ring-mock "0.4.0"]]
                   :plugins      [[com.jakemccrary/lein-test-refresh "0.25.0"]
                                  [jonase/eastwood "1.2.4"]
-                                 [cider/cider-nrepl "0.28.5"]] 
-                  
+                                 [cider/cider-nrepl "0.28.5"]]
+
                   :source-paths ["env/dev/clj" ]
                   :resource-paths ["env/dev/resources"]
                   :repl-options {:init-ns user
