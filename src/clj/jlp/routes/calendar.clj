@@ -1,6 +1,6 @@
 (ns jlp.routes.calendar
   (:require [clojure.string :as str]
-            [ctmx.core :as ctmx] 
+            [ctmx.core :as ctmx]
             [ctmx.rt :as rt]
             [ctmx.render :as render]
             [hiccup.page :refer [html5]])
@@ -50,14 +50,14 @@
        (.getDisplayName TextStyle/FULL locale)
        (str/capitalize))))
 
-(defn ->day-names 
+(defn ->day-names
   [^:Locale locale]
   (into [] (map #(day->localized-name % locale) (range 1 8))))
 
 (def day-names (->day-names RO))
 
 (defn get-calendar-rows
-  "Port of 
+  "Port of
    https://github.com/rajasegar/htmx-calendar/blob/9aa49d53730bae603eace917649cb212499e9db0/index.js#L32"
   [month year]
   (let [today (LocalDate/now)
@@ -88,12 +88,12 @@
   (-> DayOfWeek/SUNDAY (.getValue))
 
   (doall (repeat 7 0))
-  
+
   (-> (LocalDate/now) (.minusDays 1))
 
   (->> (LocalDate/now) .lengthOfMonth)
 
-  
+
   (-> (LocalDate/now) (.getMonth))
   (-> (LocalDate/now)
       (DayOfWeek/from)
@@ -109,7 +109,20 @@
       (.with (TemporalAdjusters/firstDayOfMonth)))
   )
 
+(ctmx/defcomponent ^:endpoint next [req]
+  (let [now (LocalDate/now) ;; TODO pass now as a parameter
+        ]
+    (-> now (.plusDays 1) str)))
+(ctmx/defcomponent ^:endpoint previous [req]
+  (let [now (LocalDate/now) ;; TODO pass now as a parameter
+        ]
+    (-> now (.plusDays -1) str)))
+
 (ctmx/defcomponent ^:endpoint calendar [req]
+  ;; we do not use next and previous within calendar
+  ;; but we want the endpoints to be exposed so we reference them here
+  next
+  previous
   (let [today (LocalDate/now)
         date 9
         month 8
@@ -132,7 +145,7 @@
                                                :title today} "Today"]
 
        [:button.btn.btn-secondary.ms-2.btn-sm {:type "button"
-                                               :hx-get "/previous"
+                                               :hx-get "previous"
                                                :hx-target "#calendar"
                                                :data-bs-toggle "tooltip"
                                                :data-bs-placement "top"
@@ -140,7 +153,7 @@
         [:img {:src "/img/chevron-left.svg"}]]
 
        [:button.btn.btn-secondary.ms-2.btn-sm {:type "button"
-                                               :hx-get "/next"
+                                               :hx-get "next"
                                                :hx-target "#calendar"
                                                :data-bs-toggle "tooltip"
                                                :data-bs-placement "top"
@@ -162,47 +175,34 @@
                          :hx-get (str "/modal?date=" col "-" current-month "-" current-year)
                          :hx-target "#modals-here"
                          :hx-trigger "click"
-                         :_ "on htmx:afterLoad 
-                             wait 10ms 
-                             then add .show to #modal 
+                         :_ "on htmx:afterLoad
+                             wait 10ms
+                             then add .show to #modal
                              then add .show to #modal-backdrop"}
                     [:span (if (= col 0) "" col)]
                     [:div.mt-2 {:id (str "events-" col "-" current-month "-" current-year)
                                 :style "height:65px;overflow-y:auto"}]])])]]
      [:div#modals-here])))
 
-
-(ctmx/defcomponent ^:endpoint markup [req]
-                   )
-
-
 (defn calendar-routes []
-  (conj )(ctmx/make-routes
+  (ctmx/make-routes
    "/"
    (fn [req]
      (html5-response
-      (calendar req))))
-  [(ctmx/make-routes
-    "/next"
-    (fn [req]
-      (markup req (-> (LocalDate/now) (.plusDays 1)))))
-   (ctmx/make-routes
-    "/previous"
-    (fn [req]
-      (markup req (-> (LocalDate/now) (.minusDays 1)))))])
+      (calendar req)))))
 
 
 (comment
 
 (require '[clojure.pprint :as p])
-  
+
   (p/pprint (ctmx/make-routes
              "/"
              (fn [req]
                (html5-response
                 (calendar req)))))
-  
-  
+
+
   (p/pprint (conj (rest (ctmx/make-routes
                          "/"
                          (fn [req]
@@ -213,6 +213,6 @@
                          (fn [req]
                            (html5-response
                             (markup req)))))))
-  
-  
+
+
   0)
