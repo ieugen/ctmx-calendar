@@ -1,12 +1,16 @@
 (ns user
   "Userspace functions you can run by default in your local REPL."
-  (:require
-   [jlp.config :refer [env]]
-    [clojure.pprint]
-    [clojure.spec.alpha :as s]
-    [expound.alpha :as expound]
-    [mount.core :as mount]
-    [jlp.core :refer [start-app]]))
+  (:require [jlp.config :refer [env]]
+            [clojure.pprint]
+            [clojure.spec.alpha :as s]
+            [expound.alpha :as expound]
+            [mount.core :as mount]
+            [jlp.core :refer [start-app]]
+            [hyperfiddle.rcf]))
+
+
+;; enalbe tests on
+(hyperfiddle.rcf/enable!)
 
 (alter-var-root #'s/*explain-out* (constantly expound/printer))
 

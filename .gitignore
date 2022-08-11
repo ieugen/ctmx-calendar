@@ -7,3 +7,4 @@
 **/.lsp/
 target
 log
+.lein-failures

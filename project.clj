@@ -7,6 +7,7 @@
                  [clojure.java-time "0.3.3"]
                  [cprop "0.1.19"]
                  [ctmx "1.4.5"]
+                 [com.hyperfiddle/rcf "20220405"]
                  [expound "0.9.0"]
                  [funcool/struct "1.4.0"]
                  [json-html "0.4.7"]
@@ -68,7 +69,9 @@
                                  :timeout 120000}
                   :injections [(require 'pjstadig.humane-test-output)
                                (pjstadig.humane-test-output/activate!)]}
-   :project/test {:jvm-opts ["-Dconf=test-config.edn" ]
+   :project/test {:jvm-opts ["-Dconf=test-config.edn"
+                             "-Dhyperfiddle.rcf.generate-tests=true"]
+                  :test-paths ["test" "src"]
                   :resource-paths ["env/test/resources"] }
    :profiles/dev {}
    :profiles/test {}})
