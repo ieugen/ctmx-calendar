@@ -1,13 +1,10 @@
 (ns jlp.routes.calendar
   (:require [clojure.string :as str]
             [ctmx.core :as ctmx]
-            [ctmx.rt :as rt]
             [ctmx.render :as render]
             [hiccup.page :refer [html5]]
-            [hyperfiddle.rcf :refer [tests ! %]])
-  (:import (java.time DayOfWeek
-                      LocalDate
-                      Month)
+            [hyperfiddle.rcf :refer [tests]])
+  (:import (java.time DayOfWeek LocalDate Month)
            (java.time.format TextStyle)
            (java.time.temporal TemporalAdjusters)
            (java.util Locale)))
@@ -70,7 +67,6 @@
   (into [] (map #(local-month-name % locale) (range 1 13))))
 
 (def day-names (->day-names RO))
-(def month-names (->month-names RO))
 
 (defn date->day-of-week
   "Reurn the day of the week for the given date."
@@ -96,8 +92,8 @@
 
  (date->day-of-week (LocalDate/of 2022 8 12)) := 5
  (date->day-of-week (LocalDate/of 2022 8 13)) := 6
-
- )
+ 
+ 0)
 
 (defn get-calendar-rows
   ;; port of Port of https://github.com/rajasegar/htmx-calendar/blob/9aa49d53730bae603eace917649cb212499e9db0/index.js#L32   
@@ -131,7 +127,7 @@
                                  (12 13 14 15 16 17 18)
                                  (19 20 21 22 23 24 25)
                                  (26 27 28 29 0 0 0))
-  
+
  0)
 
 (ctmx/defcomponent ^:endpoint next-month [req]
