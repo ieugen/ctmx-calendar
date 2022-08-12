@@ -1,9 +1,9 @@
-(ns jlp.handler-test
+(ns ctmx-calendar.handler-test
   (:require
     [clojure.test :refer :all]
     [ring.mock.request :refer :all]
-    [jlp.handler :refer :all]
-    [jlp.middleware.formats :as formats]
+    [ctmx-calendar.handler :refer :all]
+    [ctmx-calendar.middleware.formats :as formats]
     [muuntaja.core :as m]
     [mount.core :as mount]))
 
@@ -13,8 +13,8 @@
 (use-fixtures
   :once
   (fn [f]
-    (mount/start #'jlp.config/env
-                 #'jlp.handler/app-routes)
+    (mount/start #'ctmx-calendar.config/env
+                 #'ctmx-calendar.handler/app-routes)
     (f)))
 
 (deftest test-app

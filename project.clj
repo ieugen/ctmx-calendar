@@ -1,4 +1,4 @@
-(defproject jlp "0.1.0-SNAPSHOT"
+(defproject ctmx-calendar "0.1.0-SNAPSHOT"
 
   :description "Clojure htmx (ctmx) port of https://github.com/rajasegar/htmx-calendar/ ."
   :url "https://github.com/ieugen/ctmx-calendar"
@@ -38,14 +38,14 @@
   :test-paths ["test/clj"]
   :resource-paths ["resources"]
   :target-path "target/%s/"
-  :main ^:skip-aot jlp.core
+  :main ^:skip-aot ctmx-calendar.core
 
   :plugins []
 
   :profiles
   {:uberjar {:omit-source true
              :aot :all
-             :uberjar-name "jlp.jar"
+             :uberjar-name "ctmx-calendar.jar"
              :source-paths ["env/prod/clj" ]
              :resource-paths ["env/prod/resources"]}
 

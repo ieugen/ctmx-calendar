@@ -1,4 +1,4 @@
-(ns jlp.routes.calendar
+(ns ctmx-calendar.routes.calendar
   (:require [clojure.string :as str]
             [ctmx.core :as ctmx]
             [ctmx.render :as render]

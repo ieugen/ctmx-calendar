@@ -1,4 +1,4 @@
-(ns jlp.dev-middleware
+(ns ctmx-calendar.dev-middleware
   (:require
     [ring.middleware.reload :refer [wrap-reload]]
     [selmer.middleware :refer [wrap-error-page]]

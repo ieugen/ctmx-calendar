@@ -1,9 +1,9 @@
-(ns jlp.core
+(ns ctmx-calendar.core
   (:require
-    [jlp.handler :as handler]
-    [jlp.nrepl :as nrepl]
+    [ctmx-calendar.handler :as handler]
+    [ctmx-calendar.nrepl :as nrepl]
     [luminus.http-server :as http]
-    [jlp.config :refer [env]]
+    [ctmx-calendar.config :refer [env]]
     [clojure.tools.cli :refer [parse-opts]]
     [clojure.tools.logging :as log]
     [mount.core :as mount])

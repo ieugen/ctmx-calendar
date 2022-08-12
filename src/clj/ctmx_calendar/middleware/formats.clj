@@ -1,4 +1,4 @@
-(ns jlp.middleware.formats
+(ns ctmx-calendar.middleware.formats
   (:require
     [luminus-transit.time :as time]
     [muuntaja.core :as m]))

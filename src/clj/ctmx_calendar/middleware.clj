@@ -1,12 +1,12 @@
-(ns jlp.middleware
+(ns ctmx-calendar.middleware
   (:require
-    [jlp.env :refer [defaults]]
+    [ctmx-calendar.env :refer [defaults]]
     [clojure.tools.logging :as log]
-    [jlp.layout :refer [error-page]]
+    [ctmx-calendar.layout :refer [error-page]]
     [ring.middleware.anti-forgery :refer [wrap-anti-forgery]]
-    [jlp.middleware.formats :as formats]
+    [ctmx-calendar.middleware.formats :as formats]
     [muuntaja.middleware :refer [wrap-format wrap-params]]
-    [jlp.config :refer [env]]
+    [ctmx-calendar.config :refer [env]]
     [ring.middleware.flash :refer [wrap-flash]]
     [ring.adapter.undertow.middleware.session :refer [wrap-session]]
     [ring.middleware.defaults :refer [site-defaults wrap-defaults]])

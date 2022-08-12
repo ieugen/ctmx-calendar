@@ -1,4 +1,4 @@
-(ns jlp.nrepl
+(ns ctmx-calendar.nrepl
   (:require
     [nrepl.server :as nrepl]
     [clojure.tools.logging :as log]))

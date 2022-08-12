@@ -1,11 +1,11 @@
 (ns user
   "Userspace functions you can run by default in your local REPL."
-  (:require [jlp.config :refer [env]]
+  (:require [ctmx-calendar.config :refer [env]]
             [clojure.pprint]
             [clojure.spec.alpha :as s]
             [expound.alpha :as expound]
             [mount.core :as mount]
-            [jlp.core :refer [start-app]]
+            [ctmx-calendar.core :refer [start-app]]
             [hyperfiddle.rcf]))
 
 
@@ -26,12 +26,12 @@
   "Starts application.
   You'll usually want to run this on startup."
   []
-  (mount/start-without #'jlp.core/repl-server))
+  (mount/start-without #'ctmx-calendar.core/repl-server))
 
 (defn stop
   "Stops application."
   []
-  (mount/stop-except #'jlp.core/repl-server))
+  (mount/stop-except #'ctmx-calendar.core/repl-server))
 
 (defn restart
   "Restarts application."

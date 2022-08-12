@@ -1,4 +1,4 @@
-(ns jlp.layout
+(ns ctmx-calendar.layout
   (:require
     [clojure.java.io]
     [selmer.parser :as parser]

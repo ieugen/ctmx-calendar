@@ -1,8 +1,8 @@
-(ns jlp.env
+(ns ctmx-calendar.env
   (:require
     [selmer.parser :as parser]
     [clojure.tools.logging :as log]
-    [jlp.dev-middleware :refer [wrap-dev]]))
+    [ctmx-calendar.dev-middleware :refer [wrap-dev]]))
 
 (def defaults
   {:init

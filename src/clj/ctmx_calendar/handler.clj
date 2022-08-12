@@ -1,8 +1,8 @@
-(ns jlp.handler
-  (:require [jlp.env :refer [defaults]]
-            [jlp.layout :refer [error-page]]
-            [jlp.middleware :as middleware]
-            [jlp.routes.calendar :refer [calendar-routes]]
+(ns ctmx-calendar.handler
+  (:require [ctmx-calendar.env :refer [defaults]]
+            [ctmx-calendar.layout :refer [error-page]]
+            [ctmx-calendar.middleware :as middleware]
+            [ctmx-calendar.routes.calendar :refer [calendar-routes]]
             [mount.core :as mount]
             [reitit.ring :as ring]
             [ring.middleware.content-type :refer [wrap-content-type]]

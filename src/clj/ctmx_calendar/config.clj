@@ -1,4 +1,4 @@
-(ns jlp.config
+(ns ctmx-calendar.config
   (:require
     [cprop.core :refer [load-config]]
     [cprop.source :as source]
