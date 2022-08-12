@@ -1,7 +1,6 @@
 .lsp/.cache
 .clj-kondo/.cache
 .portal
-**/.vscode/settings.json
 **/.calva/output-window/
 .clj-kondo/.cache/
 **/.lsp/
