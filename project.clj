@@ -1,7 +1,7 @@
 (defproject jlp "0.1.0-SNAPSHOT"
 
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
+  :description "Clojure htmx (ctmx) port of https://github.com/rajasegar/htmx-calendar/ ."
+  :url "https://github.com/ieugen/ctmx-calendar"
 
   :dependencies [[ch.qos.logback/logback-classic "1.2.11"]
                  [clojure.java-time "0.3.3"]
