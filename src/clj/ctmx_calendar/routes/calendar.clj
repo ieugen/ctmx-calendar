@@ -40,9 +40,9 @@
 
 (def RO (Locale. "ro"))
 
-(defn local-day-name
+(defn day-name
   ([^:int day]
-   (local-day-name day RO))
+   (day-name day RO))
   ([^:int day ^:Locale locale]
    (-> day
        (DayOfWeek/of)
@@ -51,11 +51,11 @@
 
 (defn ->day-names
   [^:Locale locale]
-  (into [] (map #(local-day-name % locale) (range 1 8))))
+  (into [] (map #(day-name % locale) (range 1 8))))
 
-(defn local-month-name
+(defn month-name
   ([^:int month]
-   (local-month-name month RO))
+   (month-name month RO))
   ([^:int month ^:Locale locale]
    (-> month
        (Month/of)
@@ -64,7 +64,7 @@
 
 (defn ->month-names
   [^:Locale locale]
-  (into [] (map #(local-month-name % locale) (range 1 13))))
+  (into [] (map #(month-name % locale) (range 1 13))))
 
 (def day-names (->day-names RO))
 
@@ -78,13 +78,13 @@
 (tests
  "working with dates"
 
- (local-day-name 1) := "Luni"
- (local-day-name 1 Locale/FRENCH) := "Lundi"
+ (day-name 1) := "Luni"
+ (day-name 1 Locale/FRENCH) := "Lundi"
 
  (->day-names RO) := ["Luni" "Marți" "Miercuri" "Joi" "Vineri" "Sâmbătă" "Duminică"]
 
- (local-month-name 1) := "Ianuarie"
- (local-month-name 1 Locale/UK) := "January"
+ (month-name 1) := "Ianuarie"
+ (month-name 1 Locale/UK) := "January"
 
  (let [m (->month-names RO)]
    (count m) := 12
@@ -95,9 +95,33 @@
  
  0)
 
+(def STATE (atom {}))
+
+(defn initialize-state!
+  [state & {:keys [^:LocalDate today] :as _opts}]
+  (let [now (or today (LocalDate/now))
+        current-month (-> now .getMonthValue)
+        current-year (-> now .getYear)]
+    (swap! state merge {:current-month-year now
+                        :current-month current-month
+                        :current-year current-year})
+    @state))
+
+;; initialize state in the app
+(initialize-state! STATE)
+
+(tests
+ "initialize state"
+
+ (let [d (LocalDate/of 2019 10 10)]
+   (initialize-state! (atom {}) :today d) := {:current-month-year d
+                                              :current-year 2019
+                                              :current-month 10}))
+
+
 (defn get-calendar-rows
   ;; port of Port of https://github.com/rajasegar/htmx-calendar/blob/9aa49d53730bae603eace917649cb212499e9db0/index.js#L32   
-  [year month]
+  [^:int year ^:int month]
   (let [first-day-date (LocalDate/of year month 1)
         days-in-month (->> first-day-date .lengthOfMonth)
         first-day (date->day-of-week first-day-date)
@@ -150,22 +174,28 @@
     (println "today")
     (-> now (.plusDays 1) str)))
 
-(ctmx/defcomponent ^:endpoint calendar [req state]
+(ctmx/defcomponent ^:endpoint calendar [req]
   ;; we do not use next and previous within calendar
   ;; but we want the endpoints to be exposed so we reference them here
   next-month
   previous-month
   modal
   today
-  (let [today (:today @state)
-        date 9
-        month 8
-        year 2022
-        current-month 8
-        current-year 2022]
+  (let [{:keys [current-month current-year]} @STATE
+        month-year (str (month-name current-month) " - " current-year)
+        today (LocalDate/now)
+        date (-> today .getDayOfMonth)
+        month (-> today .getMonthValue)
+        year (-> today .getYear)
+        rows (get-calendar-rows current-year current-month)
+        td-id (fn [col] (str "date-" col "-" current-month "-" current-year))
+        col->date-str (fn [col] (str current-year "-" current-month "-" col))
+        is-current-date? (fn [col] (and (= col date)
+                                        (= month current-month)
+                                        (= year current-year)))]
     (list
      [:div.d-flex.justify-content-between.align-items-center
-      [:h2#current-month "August - 2022"]
+      [:h2#current-month month-year]
       [:div.text-success {:hidden "" :data-activity-indicator ""}
        [:div.spinner-border.spinner-border-sm]
        [:span "Loading..."]]
@@ -197,15 +227,13 @@
       [:thead.table-dark
        [:tr.text-center
         (map (fn [e] [:th {:style "width:14%"} e]) day-names)]]
-      [:tbody (for [row (get-calendar-rows 2022 8)]
+      [:tbody (for [row rows]
                 [:tr.table-light
                  (for [col row]
-                   [:td {:id (str "date-" col "-" current-month "-" current-year)
-                         :class (when (and (= col date)
-                                           (= month current-month)
-                                           (= year current-year))
+                   [:td {:id (td-id col)
+                         :class (when (is-current-date? col)
                                   "table-info")
-                         :hx-get (str "modal?date=" col "-" current-month "-" current-year)
+                         :hx-get (str "modal?date=" (col->date-str col))
                          :hx-target "#modals-here"
                          :hx-trigger "click"
                          :_ "on htmx:afterLoad
@@ -213,17 +241,16 @@
                              then add .show to #modal
                              then add .show to #modal-backdrop"}
                     [:span (if (= col 0) "" col)]
-                    [:div.mt-2 {:id (str "events-" col "-" current-month "-" current-year)
+                    [:div.mt-2 {:id (str "events-" (col->date-str col))
                                 :style "height:65px;overflow-y:auto"}]])])]]
      [:div#modals-here])))
 
 (defn calendar-routes []
-  (let [state (atom {})]
-    (ctmx/make-routes
-     "/"
-     (fn [req]
-       (html5-response
-        (calendar req state))))))
+  (ctmx/make-routes
+   "/"
+   (fn [req]
+     (html5-response
+      (calendar req)))))
 
 (comment
 
